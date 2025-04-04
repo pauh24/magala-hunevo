@@ -59,8 +59,8 @@
 
   <div id="start">
     <input type="text" id="playerName" placeholder="Introduce nombre de jugador"/>
-    <button onclick="addPlayer()">Añadir jugador</button>
-    <button onclick="startGame()">Empezar juego</button>
+    <button id="addBtn">Añadir jugador</button>
+    <button id="startBtn">Empezar juego</button>
     <p id="playerList"></p>
   </div>
 
@@ -68,9 +68,9 @@
     <h2 id="currentPlayer"></h2>
     <div id="card"><img id="cardImage" class="card-img" src="" /></div>
     <div id="controls">
-      <button onclick="nextCard()">Sacar carta</button>
-      <button onclick="nextPlayer()">Pasar turno</button>
-      <button onclick="resetGame()">Reiniciar</button>
+      <button id="cardBtn">Sacar carta</button>
+      <button id="nextBtn">Pasar turno</button>
+      <button onclick="location.reload()">Reiniciar</button>
     </div>
   </div>
 
@@ -87,7 +87,7 @@
     ];
     let usedCards = [];
 
-    function addPlayer() {
+    document.getElementById("addBtn").addEventListener("click", () => {
       const nameInput = document.getElementById("playerName");
       const name = nameInput.value.trim();
       if (name && players.length < 20) {
@@ -95,9 +95,9 @@
         nameInput.value = "";
         document.getElementById("playerList").innerText = "Jugadores: " + players.join(", ");
       }
-    }
+    });
 
-    function startGame() {
+    document.getElementById("startBtn").addEventListener("click", () => {
       if (players.length < 3) {
         alert("Mínimo 3 jugadores");
         return;
@@ -106,19 +106,15 @@
       document.getElementById("game").style.display = "flex";
       document.getElementById("controls").style.display = "flex";
       showPlayer();
-    }
+    });
 
-    function showPlayer() {
-      document.getElementById("currentPlayer").innerText = "Turno de: " + players[currentPlayerIndex];
-    }
-
-    function nextPlayer() {
+    document.getElementById("nextBtn").addEventListener("click", () => {
       currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
       showPlayer();
       document.getElementById("cardImage").src = "";
-    }
+    });
 
-    function nextCard() {
+    document.getElementById("cardBtn").addEventListener("click", () => {
       if (usedCards.length === cards.length) {
         alert("Ya se han usado todas las cartas");
         return;
@@ -129,10 +125,10 @@
       } while (usedCards.includes(card));
       usedCards.push(card);
       document.getElementById("cardImage").src = `./${card}`;
-    }
+    });
 
-    function resetGame() {
-      location.reload();
+    function showPlayer() {
+      document.getElementById("currentPlayer").innerText = "Turno de: " + players[currentPlayerIndex];
     }
   </script>
 </body>
